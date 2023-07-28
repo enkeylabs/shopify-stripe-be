@@ -6,10 +6,13 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Initialize Shopify API client
 const router = Router();
+const SHOPIFY_API_ACCESS_TOKEN = process.env.SHOPIFY_API_ACCESS_TOKEN;
+
 const shopify = new Shopify({
   shopName: process.env.SHOPIFY_STORE_DOMAIN,
-  accessToken: process.env.SHOPIFY_API_ACCESS_TOKEN
+  accessToken: SHOPIFY_API_ACCESS_TOKEN || process.env.SHOPIFY_API_ACCESS_TOKEN
 });
+
 
 router.post('/create-order', async (_req, res) => {
   try {
@@ -34,7 +37,7 @@ router.post('/create-order', async (_req, res) => {
       }
     }, {
       headers: {
-        'X-Shopify-Access-Token': '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'
+        'X-Shopify-Access-Token': SHOPIFY_API_ACCESS_TOKEN
       }
     })
     const { order } = response.data
